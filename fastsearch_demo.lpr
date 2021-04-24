@@ -1,4 +1,6 @@
 program fastsearch_demo;
+uses
+  SysUtils,DateUtils;
 const
   Pattern = 'EXAMPLE';
   SourceText = 'HERE IS A SIMPLE EXAMPLE';
@@ -8,7 +10,7 @@ var
   StartBit      : uInt64;
   s_len      : uInt64;
   firstmatch : uInt64;
-  target     : string;
+  target     : String;
 
   procedure setmask(searchstring : string);
   var
@@ -59,7 +61,6 @@ var
 
       cld                             // we go UP the string, not down
     @@test_character:
-      xor   rax,rax
       lodsb                           // get the character and move it into bl
       mov   rbx,rax
       shl   rbx,3                     //  rbx=rbx*8
@@ -85,12 +86,23 @@ var
   end;
 
 var
-  i : integer;
+  i,j : integer;
+  StartTime : TDateTime;
+
 begin
+  StartTime := Now;
+
   s := Pattern;
   setmask(s);
 
-  target := SourceText;
+  target := '          ';
+  target := target+ target + target + target + target + target + target + target + target + target;
+  target := target+ target + target + target + target + target + target + target + target + target;
+  target := target+ target + target + target + target + target + target + target + target + target;
+  target := target+ target + target + target + target + target + target + target + target + target;
+  target := target+ target + target + target + target + target + target + target + target + target;
+
+  target := target+SourceText;
 
   writeln('Target text is ',length(target),' characters long');
 
@@ -100,8 +112,11 @@ begin
     if bitmask[i] <> 0 then
       writeln(hexstr(i,2),' ',hexstr(bitmask[i],16));
 
-  do_fast_search(target);
+  writeln('Iterating 1000 times');
+  for j := 1 to 1000 do
+    do_fast_search(target);
 
   writeln('Found at ',firstmatch);
+  writeln((MilliSecondsBetween(Now,StartTime)*0.001):10:3,' seconds');
 end.
 
