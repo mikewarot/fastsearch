@@ -7,3 +7,5 @@ April 24, 2021 - Michael Warot
 I'll document it better once I get some sleep.
 
 This is the MVP - Minimum Viable Product for showing the code
+
+On my laptop, it searches though a gigabyte in 1.964 seconds
